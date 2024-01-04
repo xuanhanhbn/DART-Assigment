@@ -1,21 +1,27 @@
 class Customer {
-  int? id;
   String? fullName;
   String? birthDay;
   String? address;
   String? phoneNumber;
 
   Customer({
-    required this.id,
     required this.fullName,
     required this.birthDay,
     required this.address,
     required this.phoneNumber,
   });
 
+  Map<String, dynamic> toJson() {
+    return {
+      'fullName': fullName,
+      'birthDay': birthDay,
+      'address': address,
+      'phoneNumber': phoneNumber,
+    };
+  }
+
   factory Customer.valueFromJson(Map<String, dynamic> json) {
     return Customer(
-        id: json["id"] ?? 'N/A',
         fullName: json["fullName"] ?? 'N/A',
         birthDay: json["birthDay"] ?? 'N/A',
         address: json["address"] ?? 'N/A',
@@ -25,6 +31,6 @@ class Customer {
   @override
   String toString() {
     // TODO: implement toString
-    return "id: $id, name: $fullName,birthDay: $birthDay, address: $address, phoneNumber: $phoneNumber";
+    return "name: $fullName,birthDay: $birthDay, address: $address, phoneNumber: $phoneNumber";
   }
 }

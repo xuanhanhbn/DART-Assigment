@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dart/model/customer.dart';
 import 'package:dart/request/CustomerRequest.dart';
@@ -7,14 +8,6 @@ import 'package:http/http.dart' as http;
 
 class CustomerServiceImpl implements CustomerService {
   final String baseURL = "http://localhost:8080/api/v1/customer";
-
-  var newCustomer = CustomerRequest(
-    fullName: 'New Customer',
-    birthDay: '26/2/2001',
-    address: '123 ABC Street',
-    phoneNumber: '0988888881',
-  );
-
 
   var headers = <String, String>{
     'Content-Type': 'application/json; charset=UTF-8',
@@ -41,12 +34,31 @@ class CustomerServiceImpl implements CustomerService {
   Future<void> createCustomer(CustomerRequest customerRequest) async {
     // TODO: implement createCustomer
     try {
+      stdout.write('Enter FullName: ');
+      var fullName = stdin.readLineSync() ?? '';
+
+      stdout.write('Enter BirthDay: ');
+      var birthDay = stdin.readLineSync() ?? '';
+
+      stdout.write('Enter Address: ');
+      var address = stdin.readLineSync() ?? '';
+
+      stdout.write('Enter PhoneNumber: ');
+      var phoneNumber = stdin.readLineSync() ?? '';
+
+      var newCustomer = Customer(
+        fullName: fullName,
+        birthDay: birthDay,
+        address: address,
+        phoneNumber: phoneNumber,
+      );
+
       var response = await http.post(
         Uri.parse('$baseURL/save'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
-        body: jsonEncode(customerRequest.toJson()),
+        body: jsonEncode(newCustomer.toJson()),
       );
 
       if (response.statusCode == 200) {
